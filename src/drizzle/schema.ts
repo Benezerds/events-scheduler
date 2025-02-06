@@ -1,5 +1,5 @@
 import { DAYS_OF_WEEK_IN_ORDER } from "@/data/constants";
-import { relations } from "drizzle-orm";
+import { One, relations } from "drizzle-orm";
 import {
   boolean,
   index,
@@ -66,8 +66,7 @@ export const ScheduleAvailabilityTable = pgTable(
 
 export const ScheduleAvailabilityRelations = relations(
   ScheduleAvailabilityTable,
-  ({}) => ({
-    //@ts-ignore
+  ({ one }) => ({
     schedule: one(ScheduleTable, {
       fields: [ScheduleAvailabilityTable.scheduleId],
       references: [ScheduleTable.id],
