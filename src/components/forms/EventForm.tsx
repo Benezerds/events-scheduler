@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Textarea } from "../ui/textarea";
 import { Switch } from "../ui/switch";
+import { createEvent } from "@/app/server/actions/event";
 
 function EventForm() {
   const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -28,7 +29,8 @@ function EventForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof eventFormSchema>) {
+  async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    await createEvent(values)
     console.log(values);
   }
   return (
@@ -77,7 +79,7 @@ function EventForm() {
                 <Textarea className="resize-none h-32" {...field} />
               </FormControl>
               <FormDescription>
-                The name users will see when booking
+                Your event description
               </FormDescription>
               <FormMessage />
             </FormItem>
