@@ -17,6 +17,8 @@ export async function createEvent(unsafeData: z.infer<typeof eventFormSchema>): 
     return { error: true };
   }
 
+  console.log(data);
+
   await db.insert(EventTable).values({ ...data, clerkUserId: userId });
 
   redirect("/events")

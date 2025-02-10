@@ -30,6 +30,7 @@ function EventForm() {
   });
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    console.log(values);
     const data = await createEvent(values)
 
     if (data?.error) {
@@ -37,8 +38,8 @@ function EventForm() {
             message: "There was an error saving your event",
         })
     }
-    console.log(values);
   }
+
   return (
     <Form {...form}>
       <form
