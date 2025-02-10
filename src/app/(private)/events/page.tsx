@@ -1,3 +1,4 @@
+import CopyEventButton from "@/components/CopyEventButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/drizzle/db";
@@ -60,7 +61,7 @@ type EventCardProps = {
   name: string;
   description: string | null;
   durationInMinutes: number;
-  ClerkUserId: string;
+  clerkUserId: string;
 };
 
 function EventCard({
@@ -69,7 +70,7 @@ function EventCard({
   name,
   description,
   durationInMinutes,
-  ClerkUserId,
+  clerkUserId,
 }: EventCardProps) {
   return (
     <Card className="flex flex-col">
