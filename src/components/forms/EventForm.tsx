@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventFormSchema } from "@/schema/events";
 import {
@@ -20,10 +20,20 @@ import { Textarea } from "../ui/textarea";
 import { Switch } from "../ui/switch";
 import { createEvent } from "@/app/server/actions/event";
 
-function EventForm() {
+function EventForm({
+  event,
+}: {
+  event?: {
+    id: string;
+    name: string;
+    description?: string;
+    durationInMinutes: number;
+    isActive: boolean;
+  };
+}) {
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
-    defaultValues: {
+    defaultValues: event ?? {
       isActive: true,
       durationInMinutes: 30,
     },
@@ -31,12 +41,12 @@ function EventForm() {
 
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     console.log(values);
-    const data = await createEvent(values)
+    const data = await createEvent(values);
 
     if (data?.error) {
-        form.setError("root", {
-            message: "There was an error saving your event",
-        })
+      form.setError("root", {
+        message: "There was an error saving your event",
+      });
     }
   }
 
@@ -47,9 +57,9 @@ function EventForm() {
         className="flex gap-6 flex-col"
       >
         {form.formState.errors.root && (
-            <div className="text-destructive text-sm">
-                {form.formState.errors.root.message}
-            </div>
+          <div className="text-destructive text-sm">
+            {form.formState.errors.root.message}
+          </div>
         )}
         <FormField
           control={form.control}
@@ -90,9 +100,7 @@ function EventForm() {
               <FormControl>
                 <Textarea className="resize-none h-32" {...field} />
               </FormControl>
-              <FormDescription>
-                Your event description
-              </FormDescription>
+              <FormDescription>Your event description</FormDescription>
               <FormMessage />
             </FormItem>
           )}

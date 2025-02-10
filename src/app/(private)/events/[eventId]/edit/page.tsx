@@ -23,7 +23,7 @@ async function EditEventPage({
         <CardTitle>Edit Event</CardTitle>
       </CardHeader>
       <CardContent>
-        <EventForm />
+        <EventForm event={event}/>
       </CardContent>
     </Card>
   );
