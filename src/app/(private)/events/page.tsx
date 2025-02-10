@@ -1,8 +1,16 @@
 import CopyEventButton from "@/components/CopyEventButton";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { db } from "@/drizzle/db";
 import { formatEventDescription } from "@/lib/formatters";
+import { cn } from "@/lib/utils";
 import { RedirectToSignIn } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { CalendarPlus, CalendarRange } from "lucide-react";
@@ -73,16 +81,26 @@ function EventCard({
   clerkUserId,
 }: EventCardProps) {
   return (
-    <Card className="flex flex-col">
-      <CardHeader>
+    <Card className={cn("flex flex-col", !isActive && "border-secondary/50")}>
+      <CardHeader className={cn(!isActive && "opacity-50")}>
         <CardTitle>{name}</CardTitle>
-        <CardDescription>{formatEventDescription(durationInMinutes)}</CardDescription>
+        <CardDescription>
+          {formatEventDescription(durationInMinutes)}
+        </CardDescription>
       </CardHeader>
       {description != null && (
-        <CardContent>{description}</CardContent>
+        <CardContent className={cn(!isActive && "opacity-50")}>
+          {description}
+        </CardContent>
       )}
       <CardFooter className="flex justify-end gap-2 mt-auto">
-        <CopyEventButton variant="outline" eventId = {id} clerkUserId={clerkUserId} />
+        {isActive && (
+          <CopyEventButton
+            variant="outline"
+            eventId={id}
+            clerkUserId={clerkUserId}
+          />
+        )}
         <Button asChild>
           <Link href={`/events/${id}/edit`}>Edit</Link>
         </Button>
